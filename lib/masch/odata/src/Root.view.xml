@@ -1,0 +1,47 @@
+<mvc:View
+        xmlns="sap.m"
+        xmlns:mvc="sap.ui.core.mvc"
+        controllerName="masch.odata.src.Root"
+        displayBlock="true">
+    <App>
+        <Page showHeader="false">
+            <Panel id="panelServiceConfig"
+                   expandable="true" expanded="true"
+                   headerText="Service configuration">
+
+                <Label text="Service URL:" /> <Input value="{/serviceUrl}" />
+                <CheckBox text="Use CORS-anywhere" selected="{/useCorsAnywhere}" />
+                <CheckBox text="withCredentials" selected="{/withCredentials}" />
+
+                <Button type="Accept" text="Connect"
+                        icon="sap-icon://open-command-field"
+                        press="connectToService" />
+            </Panel>
+
+            <Panel headerText="Schemas"
+                   id="schemaSelectorPanel"
+                   expandable="true" expanded="true"
+                   visible="{/metadataAvailable}">
+                <List
+                    items="{metadata>/edmx:DataServices/Schema}"
+                    itemPress="schemaSelected">
+                    <StandardListItem title="{metadata>@Namespace}" type="Active" />
+                </List>
+            </Panel>
+
+            <Panel headerText="Entities"
+                   expandable="true" expanded="true"
+                   visible="{/metadataAvailable}"
+                   id="schemaInfo" content="{metadata>EntityType}">
+                <Panel headerText="{metadata>@Name}" expandable="true" expanded="false">
+                    <List items="{metadata>Property}">
+                        <StandardListItem
+                            title="{metadata>@Name}"
+                            description="Type: {metadata>@Type} | Nullable: {metadata>@Nullable}" />
+                    </List>
+                </Panel>
+            </Panel>
+        </Page>
+
+    </App>
+</mvc:View>
