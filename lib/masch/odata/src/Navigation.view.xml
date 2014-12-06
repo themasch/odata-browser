@@ -1,0 +1,69 @@
+<mvc:View
+        xmlns="sap.m"
+        xmlns:mvc="sap.ui.core.mvc"
+        controllerName="masch.odata.src.Root"
+        displayBlock="true">
+    <Page showHeader="false">
+        <Panel id="panelServiceConfig"
+               expandable="true" expanded="true"
+               headerText="Service configuration">
+            <VBox>
+                <Label text="Service URL:" /> <Input value="{/serviceUrl}" />
+                <CheckBox text="Use CORS-anywhere" selected="{/useCorsAnywhere}" />
+                <CheckBox text="withCredentials" selected="{/withCredentials}" />
+
+                <Button type="Accept" text="Connect"
+                        icon="sap-icon://open-command-field"
+                        press="connectToService" />
+            </VBox>
+        </Panel>
+
+        <Panel headerText="Schemas"
+               id="schemaSelectorPanel"
+               expandable="true" expanded="true"
+               visible="{/metadataAvailable}">
+            <List
+                items="{metadata>/edmx:DataServices/Schema}"
+                itemPress="schemaSelected">
+                <StandardListItem title="{metadata>@Namespace}" type="Active" />
+            </List>
+        </Panel>
+
+        <Panel headerText="Entities"
+               expandable="true" expanded="true"
+               visible="{/metadataAvailable}"
+               id="schemaInfo" content="{metadata>EntityType}">
+            <Panel headerText="{metadata>@Name}" expandable="true" expanded="false">
+
+                <List>
+                    <StandardListItem title="select" type="Active" press="execSelect" />
+                </List>
+
+                <ObjectIdentifier condensed="true" title="Keys" />
+                <List items="{metadata>Key/PropertyRef}">
+                    <StandardListItem title="{metadata>@Name}" />
+                </List>
+
+                <ObjectIdentifier condensed="true" title="Properties" />
+                <List items="{metadata>Property}">
+                    <StandardListItem
+                        title="{metadata>@Name}"
+                        description="
+                         { formatter: '.formatType',
+                           path: 'metadata>@Type' }
+                         { formatter: '.isNullable',
+                           path: 'metadata>@Nullable' }" />
+                </List>
+
+                <ObjectIdentifier condensed="true" title="Keys" />
+                <List items="{metadata>NavigationProperty}">
+                    <StandardListItem
+                        title="{metadata>@Name}"
+                        description="{metadata>@ToRole} -> {metadata>@FromRole}"
+                        xinfo="{metadata>@Relationship}" />
+                </List>
+
+            </Panel>
+        </Panel>
+    </Page>
+</mvc:View>
