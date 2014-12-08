@@ -7,5 +7,8 @@
         <masterPages>
             <mvc:XMLView viewName="masch.odata.src.Navigation" />
         </masterPages>
+        <detailPages>
+            <mvc:XMLView id="detailView" viewName="masch.odata.src.Detail" />
+        </detailPages>
     </SplitApp>
 </mvc:View>

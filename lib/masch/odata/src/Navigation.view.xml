@@ -1,7 +1,7 @@
 <mvc:View
         xmlns="sap.m"
         xmlns:mvc="sap.ui.core.mvc"
-        controllerName="masch.odata.src.Root"
+        controllerName="masch.odata.src.Navigation"
         displayBlock="true">
     <Page showHeader="false">
         <Panel id="panelServiceConfig"
@@ -32,38 +32,10 @@
         <Panel headerText="Entities"
                expandable="true" expanded="true"
                visible="{/metadataAvailable}"
-               id="schemaInfo" content="{metadata>EntityType}">
-            <Panel headerText="{metadata>@Name}" expandable="true" expanded="false">
-
-                <List>
-                    <StandardListItem title="select" type="Active" press="execSelect" />
-                </List>
-
-                <ObjectIdentifier condensed="true" title="Keys" />
-                <List items="{metadata>Key/PropertyRef}">
-                    <StandardListItem title="{metadata>@Name}" />
-                </List>
-
-                <ObjectIdentifier condensed="true" title="Properties" />
-                <List items="{metadata>Property}">
-                    <StandardListItem
-                        title="{metadata>@Name}"
-                        description="
-                         { formatter: '.formatType',
-                           path: 'metadata>@Type' }
-                         { formatter: '.isNullable',
-                           path: 'metadata>@Nullable' }" />
-                </List>
-
-                <ObjectIdentifier condensed="true" title="Keys" />
-                <List items="{metadata>NavigationProperty}">
-                    <StandardListItem
-                        title="{metadata>@Name}"
-                        description="{metadata>@ToRole} -> {metadata>@FromRole}"
-                        xinfo="{metadata>@Relationship}" />
-                </List>
-
-            </Panel>
+               id="schemaInfo" >
+            <List items="{metadata>EntityType}" itemPress="showEntityDetails">
+                <StandardListItem title="{metadata>@Name}" type="Active"/>
+            </List>
         </Panel>
     </Page>
 </mvc:View>

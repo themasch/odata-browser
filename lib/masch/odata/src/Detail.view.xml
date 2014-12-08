@@ -1,0 +1,55 @@
+<mvc:View
+        xmlns="sap.m"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:l="sap.ui.layout"
+        controllerName="masch.odata.src.Detail"
+        displayBlock="true">
+    <Page showHeader="true" title="{metadata>@Name}">
+        <Panel headerText="Details" expandable="true" expanded="true">
+            <l:Grid defaultSpan="">
+                <VBox>
+                    <ObjectIdentifier condensed="true" title="Keys" />
+                    <List items="{metadata>Key/PropertyRef}">
+                        <StandardListItem title="{metadata>@Name}" />
+                    </List>
+                </VBox>
+
+                <VBox>
+                    <ObjectIdentifier condensed="true" title="Properties" />
+                    <List items="{metadata>Property}" mode="MultiSelect">
+                        <StandardListItem
+                            title="{metadata>@Name}"
+                            description="
+                             { formatter: '.formatType',
+                               path: 'metadata>@Type' }
+                             { formatter: '.isNullable',
+                               path: 'metadata>@Nullable' }"
+                            type="Active" />
+                    </List>
+                </VBox>
+
+                <VBox>
+                    <ObjectIdentifier condensed="true" title="Navigations" />
+                    <List items="{metadata>NavigationProperty}">
+                        <StandardListItem
+                            title="{metadata>@Name}"
+                            description="to {metadata>@ToRole}"
+                            xinfo="{metadata>@Relationship}" />
+                    </List>
+                </VBox>
+
+
+                <VBox>
+                    <ObjectIdentifier condensed="true" title="Associations" />
+                    <List items="{metadata>Association}">
+                        <StandardListItem
+                            title="{metadata>@Name}"
+                            description="to {metadata>@ToRole}"
+                            xinfo="{metadata>@Relationship}" />
+                    </List>
+                </VBox>
+
+            </l:Grid>
+        </Panel>
+    </Page>
+</mvc:View>
